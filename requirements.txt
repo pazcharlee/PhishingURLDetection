@@ -8,3 +8,4 @@ requests==2.32.3
 scikit_learn==1.6.1
 whois==0.9.13
 gunicorn==20.1.0
+lime == 0.2.0.1
