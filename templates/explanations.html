@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detailed explanation for all features of the phishing detection model.">
+    <meta name="keywords" content="phishing url, explanation, machine learning, model features">
+    <meta name="author" content="VAIBHAV BICHAVE">
+    <meta name="contributor" content="Charlee Paz">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <link href="static/stylesLime.css" rel="stylesheet">
+    <title>Phishing URL Detection - Detailed Explanation</title>
+     <script>
+        function searchCharacteristics() {
+            let input = document.getElementById('search').value.toLowerCase();
+            let items = document.querySelectorAll('.characteristics ul li');
+            
+            items.forEach(item => {
+                let strongElement = item.querySelector('strong');
+                let paragraphElement = item.querySelector('p');
+                
+                let strongText = strongElement ? strongElement.innerText.toLowerCase() : "";
+                let paragraphText = paragraphElement ? paragraphElement.innerText.toLowerCase() : "";
+                
+                if (strongText.includes(input) || paragraphText.includes(input)) {
+                    item.style.display = "flex";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Characteristics of Phishing URLs</h1>
+        <div class="search-box">
+            <input type="text" id="search" onkeyup="searchCharacteristics()" placeholder="Search for a characteristic...">
+        </div>
+        <div class="characteristics">
+            <h2>Address Bar-Based Features:</h2>
+            <ul>
+                <li>
+                    <strong>Use IP address in URL</strong>
+                    <p>If an IP address is present in the domain name of the URL, for example, <i>“http://172.168.1.1/fake.html”</i>, you could be sure that someone is 
+                    trying to steal your information. Sometimes the attackers will convert the IP address into hexadecimal code making it show as follows 
+                   <i>“https://0x58.0xCC.0x62/2/paypal.ca/index.html”</i> 
+                    </p>
+                </li>
+                <li>
+                    <strong>Long URL to Hide Suspicious Content</strong>
+                    <p>Phishers will sometimes use a longer-than-normal URL to hide the malicious part in the address bar. The length of a URL is normally less 
+                  than 54 it is a legitimate URL. 
+                  </p>
+                </li>
+                <li>
+                    <strong>Short URL/Shortening Services</strong>
+                    <p>URL shortening is a technique used on the World Wide Web to significantly reduce the length of a URL while still directing users to the intended webpage. This is achieved through an HTTP redirect on a short domain name, which points to the original long URL. For instance, the link <i>“http://portal.hud.ac.uk/”</i> can be condensed to <i>“bit.ly/19DXSk4.”</i> </p>
+                </li>
+                <li>
+                    <strong>Presence of the @ Symbol</strong>
+                    <p>The usage of the <i>@</i> symbol in a URL leads the browser to ignore everything preceding the <i>@</i> symbol. For example, in <i>HTTP://example.com@fakewebsite.com</i>, the browser ignores everything before <i>@</i> and actually takes the user to <i>fakewebsite.com</i> which could be a spam site.</p>
+                </li>
+                <li>
+                    <strong>Redirection using "//"</strong>
+                    <p>When the double forward slash is present this means the user will be redirected to another website. It is found that if the URL starts with "HTTP", that means that the "//" should appear in the sixth position of the URL. However, if the URL employs "HTTPS" then it would be found in the seventh position. In short if "//"'s last occurrence in the URL is greater than 7 it is most likely a phishing site,</p>
+                </li>
+                <li>
+                    <strong>Prefix or Suffix Separated by (-) to the Domain</strong>
+                    <p>The dash symbol is not often used in legitimate URLs. Phishers tend to add prefixes or suffixes separated by the dash to the domain name so that users feel as if it is a legitimate site.</p>
+                    <p>The domain is the part of the URL in between the "HTTP or HTTPS" and ".com"</p>
+                </li>
+                <li>
+                    <strong>Sub Domain and Multi-subdomains</strong>
+                    <p>Take the link <i>HTTP://www.hud.ac.uk/students/</i> as an example. A domain name can include a country code top-level domain (ccTLD), like "UK" here. The "ac" stands for academic, and together, "ac.uk" forms a second-level domain (SLD). The main domain name is "hud". To check if a URL is a safe, you first remove "www." since it is a subdomain. Then, you take out the ccTLD if it exists and count the remaining dots in the domain name. If there is one dot, the URL is marked as <i>suspicious</i> because of it has a subdomain, but otherwise should be safe. If there are two or more dots, it is considered "Phishing" since it has multiple subdomains. If there are no subdomains, the URL is classified as legitimate.</p>
+                </li>
+                <li>
+                    <strong>HTTPS (Hyper Text Transfer Protocol with Secure Sockets Layer)</strong>
+                    <p>Having HTTPS in the website’s link is important because it makes the site look more trustworthy, but it is not enough to guarantee safety. Research suggests that we should also check the website’s security certificate, which comes with HTTPS. This includes looking at who issued the certificate and how long it has been active. Some of the most trusted companies that issue these certificates are GeoTrust, GoDaddy, Network Solutions, Thawte, Comodo, Doster, and VeriSign. The research concludes that a reputable website usually has a certificate that is at least two years old.
+                    </p>
+                </li>
+                <li>
+                    <strong>Favicon</strong>
+                    <p>A favicon is a graphic image or icon associated with a specific webpage, often seen in the browser’s address bar or tabs. It helps users recognize the website easily. However, if the favicon is being loaded from a different website, it could be a sign that the page is trying to trick the user and might be a phishing scam
+</p>
+                </li>
+                <li>
+                    <strong>Using Non-Standard Port</strong>
+                    <p>This feature helps check whether a specific service, like a website (HTTP), is working on a server. It is best to only open the necessary ports to prevent cyber attacks. Many security tools, like firewalls, proxies, and NAT servers, automatically block most ports and only allow a few to be open. If all ports are left often, cybercriminals can run harmful programs and steal user information.
+</p>
+                </li>
+                <li>
+                    <strong>Double "HTTPS" in URL</strong>
+                    <p>The phishers may add the “HTTPS” token to the domain part of a URL to trick users. For instance <i>https://https-www-paypal-it-webapps-mpp-home.soft-hair.com</i>
+</p>
+                </li>
+                <h2>Abnormal-Based Features:</h2>
+                <li>
+                    <strong>Abnormal URL</strong>
+                    <p>This feature can be extracted from WHOIS database, it checks if the host name which is the main part of the website’s address is included in the URL. The WHOIS database is a public record that stores information about website owners, including their domain name, registration details, and contact information. For a legitimate website, identity is typically part of its URL, if otherwise missing the site is likely phishing. 
+</p>
+                </li>
+                <li>
+                    <strong>Request URL</strong>
+                    <p>This feature checks if a webpage loads images, videos, or sounds from a different website. On legitimate websites, most of the content, including images and media, comes from the same domain as the webpage itself. However, if many elements are loaded from another domain, it could be a phishing site.
+</p>
+                </li>
+                <li>
+                    <strong>URL of Anchor</strong>
+                    <p>An anchor is a clickable link on a webpage, created using the <a> tag. This feature works like the Request URL check but focuses on hyperlinks. To determine if a webpage is suspicious, we look at two things. First, we check if most of the links lead to a different website than the one you are visiting. Second, we see if some links don’t go anywhere, like those with # or JavaScript::void(0) as their destination. If less than 31% of the links point to another site, the webpage is considered legitimate. If between 31% and 67% of the links do, it is labeled suspicious. If more than 67% of the links lead elsewhere, the site is likely phishing.
+</p>
+                </li>
+                <li>
+                    <strong>Links in <i>Meta, Script,</i> and <i>Link</i> Tags</strong>
+                    <p>When looking at a webpage’s code, we often see Meta, Script, and Link tags, which are commonly used on legitimate websites.On a trustworthy website, these tags typically point to the same website you are visiting rather than an unknown or different domain.
+</p>
+                    <p><b>Meta tags:</b> provide extra information about the webpage, such as the page title, description, and keywords. They help search engines understand what the page is about.
+</p>
+                    <p><b>Script tags</b>  are used to run small programs (scripts) on the webpage, like animations, pop-ups, or interactive features. These scripts usually run on your browser and help make the website more dynamic.
+</p>
+                    <p><b>Link tags </b> are used to connect the webpage to other resources, such as stylesheets (CSS) that control the design and layout of the page.
+</p>
+                </li>
+                <li>
+                    <strong>Server Form Handler (SFH)</strong>
+                    <p>An SFH is the part of a webpage that processes the information users enter into forms, like login details or payment information. If an SFH is empty or set to “about:blank”, it is considered phishing because there is no real destination for the submitted data. If the SFH sends information to a different website than the on the user is one, it is considered suspicious since legitimate websites usually process data on their own servers. Otherwise, if the SFH directs the data to the same domain as the webpage, it is a legitimate site. 
+</p>
+                </li>
+                <li>
+                    <strong>Submitting Information to Email</strong>
+                    <p>A web form lets users enter personal information, such as login details or payment data, which is then sent to a server for processing. However, phishers might try to steal this information by redirecting it to their own email. They can do this using a server-side function like “mailto:”, which sends data directly to an email address instead of a secure server. If a webpage uses “mail()” or “mailto:” to submit user information, it is considered phishing. Otherwise, it is classified as legitimate. 
+</p>
+                </li>
+                <h2>HTML and JavaScript Features</h2>
+                <li>
+                    <strong>Website Forwarding / Redirecting</strong>
+                    <p>The number of times a website has been redirected can help determine whether it's legitimate or a phishing site. In our data, legitimate websites typically have been redirected only once. On the other hand, phishing websites tend to be redirected at least 4 times. Based on this, if a webpage has been redirected once or fewer, it’s considered legitimate. If it’s been redirected between 2 and 3 times, it’s marked as suspicious, and if it’s been redirected 4 times or more, it’s likely phishing.</p>
+                </li>
+                <li>
+                    <strong>Status Bar Customization / On Mouse Hover</strong>
+                    <p>Phishers can use JavaScript to make a fake URL appear in the status bar (the area at the bottom of the browser), tricking users into thinking they are on a legitimate site. To detect this, we check the webpage’s source code, specifically looking for the “onMouseOver” event, which is triggered when the user hovers their mouse over a link. If this event changes the status bar, it’s a sign of phishing. If it doesn’t change the status bar, the website is considered legitimate.
+</p>
+                </li>
+                <li>
+                    <strong>Disabling Right Click</strong>
+                    <p>Phishers often use JavaScript to disable the right-click function on a webpage to prevent users from accessing or saving the source code, which could help identify a phishing site. To check for this, we look for the "event.button==2" code in the webpage's source, which indicates that right-clicking has been disabled. If the right-click is disabled, the site is considered phishing. If it is not disabled, the website is deemed legitimate.
+</p>
+                </li>
+                <li>
+                    <strong>Using Pop-up Window</strong>
+                    <p>It is rare for a legitimate website to ask users to enter personal information through a pop-up window. However, some legitimate websites do use pop-ups to warn users about fraud or show welcome messages, but they don’t ask for personal details. To determine if a website is phishing, we check if the pop-up window contains text fields where users are asked to input information. If it does, it is likely phishing. If the pop-up doesn’t ask for personal information, it is considered legitimate.
+</p>
+                </li>
+                <li>
+                    <strong>IFrame Redirection</strong>
+                    <p>IFrame is an HTML tag used to display an additional webpage into one that is currently shown. Phishers can make use of the “iframe” tag and make it invisible i.e. without frame borders. In this regard, phishers make use of the “frameBorder” attribute which causes the browser to render a visual delineation.
+</p>
+                </li>
+                <h2>Domain Based Features</h2>
+                <li>
+                    <strong>Age of Domain</strong>
+                    <p>Phishing websites are typically active for a short time, while legitimate websites tend to be around longer. By checking the age of the domain in the WHOIS database, we find that legitimate websites usually have a domain that is at least 6 months old. If the domain is 6 months or older, the website is considered legitimate. If the domain is younger than 6 months, it is likely phishing.
+</p>
+                </li>
+                <li>
+                    <strong>DNS Record</strong>
+                    <p>Phishing websites often have missing or unrecognized DNS records in the WHOIS database, which means there is no information linking the website to a known domain or hostname. If a website has no DNS record, it is considered phishing. If the DNS record is present and valid, the website is considered legitimate.
+</p>
+                </li>
+                <li>
+                    <strong>Web Traffic</strong>
+                    <p>This feature checks the popularity of a website by looking at the number of visitors and how many pages they visit. Since phishing websites are often active for a short time, they are not usually recognized by the Alexa database, which ranks websites based on their popularity. Based on our dataset, legitimate websites typically have a rank within the top 100,000. If a website has a rank under 100,000, it’s considered legitimate. If its rank is over 100,000, it is considered suspicious. If there is no ranking or traffic, the website is classified as phishing.
+</p>
+                </li>
+                <li>
+                    <strong>Page Rank</strong>
+                    <p>PageRank is a value that ranges from 0 to 1 and is used to measure the importance of a webpage on the internet. The higher the PageRank value, the more important the webpage is considered. In our dataset, about 95% of phishing websites have a PageRank of 0, while the remaining 5% have a PageRank value up to 0.2. Therefore, if a website's PageRank is less than 0.2, it is classified as phishing. If the PageRank is 0.2 or higher, the website is considered legitimate.
+</p>
+                </li>
+                <li>
+                    <strong>Google Index</strong>
+                    <p>This feature checks if a website is listed in Google's index, which means it appears in Google search results. When a website is indexed, it’s considered part of the web that can be found by search engines. Phishing websites are typically only active for a short time, so many of them are not indexed by Google. If a website is indexed by Google, it is classified as legitimate. If it is not indexed, the website is considered phishing.
+</p>
+                </li>
+                <li>
+                    <strong>Number of Links Pointing to Page</strong>
+                    <p>The number of links pointing to a webpage can help determine its legitimacy. Phishing websites typically have no links pointing to them due to their short lifespan, with 98% of phishing sites having no inbound links. On the other hand, legitimate websites usually have at least 2 external links pointing to them. Based on this, if a website has 0 links pointing to it, it is classified as phishing. If it has 1 or 2 links, it is considered suspicious. If the website has more than 2 links, it is classified as legitimate.
+</p>
+                </li>
+                <li>
+                    <strong>Statistical-Report Based Features</strong>
+                    <p>Several organizations, like PhishTank and StopBadware, regularly publish reports with statistics on phishing websites. These reports list the top phishing domains and IP addresses based on their data over specific periods. For this research, we used PhishTank's "Top 10 Domains" and "Top 10 IPs" from 2010 to 2012, along with StopBadware's "Top 50 IPs". If a website's host matches any of the top phishing domains or IP addresses from these reports, it is classified as phishing. If it doesn’t match, it is considered legitimate.
+</p>
+                </li>
+            </ul>
+           <!--References
+            
+            Mohammad, R. M., Thabath, F., & McCluskey, L. (2015, July). Phishing Websites 
+            Features.https://eprints.hud.ac.uk/id/eprint/24330/6/MohammadPhishing14July2015.pdf 
+            
+            -->
+        </div>
+    </div>
+      <!-- Bootstrap and JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+    
