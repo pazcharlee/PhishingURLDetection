@@ -8,6 +8,7 @@ from lime.lime_tabular import LimeTabularExplainer
 import warnings
 from feature import FeatureExtraction
 import pandas as pd
+import time 
 
 warnings.filterwarnings('ignore')
 
@@ -78,7 +79,7 @@ def get_lime_explanation(features):
     explanation = {}
     for feature, weight in exp.as_list():
         description = feature_explanations.get(feature, feature)  # Get user-friendly name
-        influence = "⚠️Increases risk" if weight > 0 else "✅Reduces risk"
+        influence = "⚠️Increases risk" if weight >  0 else "✅Reduces risk"
         explanation[description] = influence
     
     return explanation
@@ -93,11 +94,14 @@ def feature_explanation(feature_name):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    start_time = time.time()
+
+    print(f"Start Time: {start_time}")
     if request.method == "POST":
+        
         url = request.form["url"]
         obj = FeatureExtraction(url)
         x = np.array(obj.getFeaturesList()).reshape(1, 30)
-
         y_pred = gbc.predict(x)[0]  # Model prediction
         y_pro_phishing = gbc.predict_proba(x)[0, 0]  # Probability it is safe
         y_pro_non_phishing = gbc.predict_proba(x)[0, 1]  # Probability it is phishing
@@ -105,13 +109,18 @@ def index():
         # Generate LIME explanation
         lime_explanation = get_lime_explanation(x)
 
+        end_time = time.time() #end timing 
+        print(f"End Time: {end_time}")
+        processing_time = round(end_time - start_time, 3)
+
         return render_template(
             "indexLime2.html",
             xx=round(y_pro_non_phishing, 2),
             url=url,
-            explanation=lime_explanation  # Always pass this variable
+            explanation=lime_explanation,  # Always pass this variable
+            processing_time=processing_time
+            
         )
-
     # **Ensure 'explanation' is defined for GET requests**
     return render_template("indexLime2.html", xx=-1, explanation={})
 
