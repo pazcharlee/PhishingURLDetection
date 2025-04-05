@@ -72,6 +72,9 @@
     <p>Processing Time: {{ processing_time }} seconds</p>
 {% endif %}
 
+    {%if prediction is not none %}
+        <p><strong>Prediction:</strong> {{prediction}}</p>
+    {% endif %}
 </div>
 
 <!-- Bootstrap and JS -->
