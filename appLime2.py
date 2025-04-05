@@ -9,6 +9,7 @@ import warnings
 from feature import FeatureExtraction
 import pandas as pd
 import time 
+import csv
 
 warnings.filterwarnings('ignore')
 
@@ -63,7 +64,7 @@ explainer = LimeTabularExplainer(
     training_data=np.random.rand(100, 30),  # Fake data to match feature shape
     feature_names=feature_explanations,
     mode="classification",
-    class_names=["Phishing", "Safe"],
+    class_names=["Phishing", "Legitimate"],
     discretize_continuous=True
 )
 
@@ -72,17 +73,25 @@ def get_lime_explanation(features):
     Generates LIME explanations for the given URL features in a user-friendly format.
     """
     features = np.array(features).reshape(1, -1)
-
     exp = explainer.explain_instance(features[0], gbc.predict_proba, num_features=5)
 
-    # Convert technical feature names to user-friendly descriptions
     explanation = {}
     for feature, weight in exp.as_list():
         description = feature_explanations.get(feature, feature)  # Get user-friendly name
-        influence = "⚠️Increases risk" if weight >  0 else "✅Reduces risk"
+        if weight < 0:
+            if abs(weight) < 0.2:
+                influence = "⚠️Slightly Increases Risk"
+            else:
+                influence = "⚠️Strongly Increases Risk"
+        else:
+            if weight < 0.2:
+                influence = "✅Slightly Reduces Risk"
+            else:
+                influence = "✅Strongly Reduces Risk"
         explanation[description] = influence
     
     return explanation
+
 
 @app.route("/explanation/<feature_name>")
 def feature_explanation(feature_name):
@@ -90,7 +99,6 @@ def feature_explanation(feature_name):
     explanation = feature_explanations.get(feature_name, "No explanation available for this feature.")
     
     return render_template("/templates/explanations.html", feature_name=feature_name, feature_explanation=explanation)
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -106,6 +114,7 @@ def index():
         y_pro_phishing = gbc.predict_proba(x)[0, 0]  # Probability it is safe
         y_pro_non_phishing = gbc.predict_proba(x)[0, 1]  # Probability it is phishing
 
+       
         # Generate LIME explanation
         lime_explanation = get_lime_explanation(x)
 
@@ -125,7 +134,8 @@ def index():
     return render_template("indexLime2.html", xx=-1, explanation={})
 
 
-@app.route('/explanations')
+
+@app.route('/explanations') 
 def explanations():
     return render_template('explanations.html')  # Links to explanations.html in templates
 
